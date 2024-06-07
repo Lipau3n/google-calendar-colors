@@ -1,4 +1,4 @@
-# Changes google calendar event colors to pink & purple
+# Change google calendar colors extension
 
 ## How to install
 
