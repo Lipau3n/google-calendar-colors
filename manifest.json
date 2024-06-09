@@ -1,7 +1,7 @@
 {
-  "name": "Google calendar colors",
-  "description": "Changes google calendar colors",
-  "version": "1.0",
+  "name": "Change site color",
+  "description": "Change any website color theme",
+  "version": "1.1",
   "manifest_version": 3,
   "icons": {
     "16": "icons/icon16.png",
@@ -13,18 +13,25 @@
     "default_popup": "popup.html",
     "default_icon": "icons/icon128.png"
   },
+  "background": {
+    "service_worker": "scripts/serviceWorker.js"
+  },
   "content_scripts": [
     {
       "js": [
         "scripts/content.js"
       ],
       "matches": [
-        "https://calendar.google.com/*"
+        "https://*/",
+        "http://*/"
       ],
       "run_at": "document_end"
     }
   ],
   "permissions": [
-    "storage"
+    "storage",
+    "declarativeContent",
+    "activeTab",
+    "scripting"
   ]
 }
