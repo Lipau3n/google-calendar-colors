@@ -50,7 +50,7 @@ function changeColor() {
             '\t\t<feFuncB type="table" tableValues="${bP} 1"/>\n' +
             '\t\t<feFuncA type="table" tableValues="0 1"/>\n' +
             '  \t</feComponentTransfer>\n' +
-            '\t<feBlend mode="color" in="componentTransfer" in2="SourceGraphic" result="blend"/>\n' +
+            '\t<feBlend mode="hue" in="componentTransfer" in2="SourceGraphic" result="blend"/>\n' +
             '</filter></svg>`;
         document.documentElement.insertAdjacentHTML('beforeend', filterHTML);
         document.documentElement.setAttribute('style', 'filter: url(#colored)');
