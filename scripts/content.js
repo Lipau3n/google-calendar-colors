@@ -21,9 +21,12 @@ function changeColor() {
         return Math.round(percent);
     }
 
-    chrome.storage.sync.get(['color', 'state'], (items) => {
+    chrome.storage.sync.get(['color', 'state', 'mode', 'depth'], (items) => {
         const state = items.state || false;
         const hexColor = items.color || '#FE69B6';
+        const mode = items.mode || 'hue';
+        const depthNumber = (parseInt(items.depth || 33) / 100).toString();
+        const d = depthNumber === '1' ? '1' : depthNumber.substring(1);
         const rgb = hexToRgb(hexColor);
         if (!state || rgb.length !== 3) {
             removeColor();
@@ -45,15 +48,15 @@ function changeColor() {
             '            .33 .33 .33 0 0\n' +
             '            0 0 0 1 0" in="SourceGraphic" result="colormatrix"/>\n' +
             '\t<feComponentTransfer in="colormatrix" result="componentTransfer">\n' +
-            '    \t\t<feFuncR type="table" tableValues="${rP} 1"/>\n' +
-            '\t\t<feFuncG type="table" tableValues="${gP} 1"/>\n' +
-            '\t\t<feFuncB type="table" tableValues="${bP} 1"/>\n' +
-            '\t\t<feFuncA type="table" tableValues="0 1"/>\n' +
+            '    \t\t<feFuncR type="table" tableValues="${rP} ${d}"/>\n' +
+            '\t\t<feFuncG type="table" tableValues="${gP} ${d}"/>\n' +
+            '\t\t<feFuncB type="table" tableValues="${bP} ${d}"/>\n' +
+            '\t\t<feFuncA type="table" tableValues="0 ${d}"/>\n' +
             '  \t</feComponentTransfer>\n' +
-            '\t<feBlend mode="hue" in="componentTransfer" in2="SourceGraphic" result="blend"/>\n' +
+            '\t<feBlend mode="${mode}" in="componentTransfer" in2="SourceGraphic" result="blend"/>\n' +
             '</filter></svg>`;
         document.documentElement.insertAdjacentHTML('beforeend', filterHTML);
-        document.documentElement.setAttribute('style', 'filter: url(#colored)');
+        document.getElementsByTagName('body')[0].style.filter = 'url(#colored)';
     });
 }
 
@@ -62,7 +65,7 @@ function removeColor() {
     if (filterElement) {
         filterElement.remove();
     }
-    document.documentElement.setAttribute('style', '');
+    document.getElementsByTagName('body')[0].style.filter = null;
 }
 
 
