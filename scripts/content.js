@@ -57,6 +57,9 @@ function changeColor() {
             '</filter></svg>`;
         document.documentElement.insertAdjacentHTML('beforeend', filterHTML);
         document.getElementsByTagName('body')[0].style.filter = 'url(#colored)';
+        [...document.documentElement.getElementsByTagName('a')].forEach((el) => {
+            el.style.color = hexColor;
+        });
     });
 }
 
@@ -66,6 +69,9 @@ function removeColor() {
         filterElement.remove();
     }
     document.getElementsByTagName('body')[0].style.filter = null;
+    [...document.documentElement.getElementsByTagName('a')].forEach((el) => {
+        el.style.color = null;
+    })
 }
 
 
